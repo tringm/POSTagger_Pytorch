@@ -1,0 +1,8 @@
+# Pycache
+__pycache__/
+
+# Idea
+.idea/
+
+# Data folder
+data/
