@@ -11,6 +11,7 @@ torchvision = "*"
 xmltodict = "*"
 conllu = "*"
 torchtext = "*"
+sklearn = "*"
 
 [requires]
 python_version = "3.6"

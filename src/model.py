@@ -1,4 +1,6 @@
 import torch.nn as nn
+import torch
+import torch.nn.functional as F
 
 
 class CustomedBiLstm(nn.Module):
@@ -18,19 +20,20 @@ class CustomedBiLstm(nn.Module):
         self.n_tags = n_tags
 
         self.char_embedding_layer = nn.Embedding(self.alphabet_size, self.char_embedding_dim)
-        self.lower_LSTM = nn.LSTM(input_size=self.char_embedding_dim, hidden_size=self.n_hidden,
-                                  num_layers=self.n_hidden)
+        self.lower_LSTM = nn.LSTM(input_size=self.char_embedding_dim, hidden_size=self.n_hidden, batch_first=True)
         self.word_embedding_layer = nn.Embedding(self.vocab_size, self.word_embedding_dim)
         self.upper_LSTM = nn.LSTM(input_size=self.n_hidden + self.word_embedding_dim, hidden_size=self.n_hidden,
                                   bidirectional=True)
         self.hidden_to_tag = nn.Linear(self.n_hidden*2, self.n_tags)
 
     def forward(self, tokens_tensor, char_tensor):
-        print('char_tensor', char_tensor.shape)
         char_embeds = self.char_embedding_layer(char_tensor)
-        print('char_embeds', char_embeds.shape)
         lower_lstm_out, hidden = self.lower_LSTM(char_embeds)
-        print(lower_lstm_out.shape)
-        tokens_tensor = self.word_embedding_layer(tokens_tensor)
-        print('tokens_tensor', tokens_tensor.shape)
-        return
+        last_state_lower_lstm = lower_lstm_out[-1]
+        tokens_embeds = self.word_embedding_layer(tokens_tensor)
+
+        final_embeds = torch.cat((last_state_lower_lstm, tokens_embeds), 1).view(tokens_tensor.shape[0], 1, -1)
+        upper_lstm_out, hidden = self.upper_LSTM(final_embeds)
+        out = self.hidden_to_tag(upper_lstm_out.view(tokens_tensor.shape[0], -1))
+        out = F.log_softmax(out, dim=1)
+        return out
