@@ -7,7 +7,7 @@ import numpy as np
 import xmltodict
 
 from config import root_path
-from src.util.nlp import build_vocab_from_sentences_tokens
+from src.util.nlp import build_vocab_from_sentences_tokens, build_alphabet_from_sentence_tokens
 
 data_path = root_path() / 'data' / 'ud-treebanks-v2.3'
 
@@ -143,6 +143,30 @@ class LanguageDataset:
     def test_split(self):
         return self.splits_data['test']
 
+    @property
+    def vocab(self):
+        if (self.repo / 'vocab.pkl').exists():
+            with (self.repo / 'vocab.pkl').open(mode='rb') as f:
+                return pickle.load(f)
+        else:
+            all_tokens = self.dev_split.tokens + self.train_split.tokens + self.test_split.tokens
+            vocab = build_vocab_from_sentences_tokens(all_tokens)
+            with (self.repo / 'vocab.pkl').open(mode='wb') as f:
+                pickle.dump(vocab, f)
+            return vocab
+
+    @property
+    def alphabet(self):
+        if (self.repo / 'alphabet.pkl').exists():
+            with (self.repo / 'alphabet.pkl').open(mode='rb') as f:
+                return pickle.load(f)
+        else:
+            all_tokens = self.dev_split.tokens + self.train_split.tokens + self.test_split.tokens
+            alphabet = build_alphabet_from_sentence_tokens(all_tokens)
+            with (self.repo / 'alphabet.pkl').open(mode='wb') as f:
+                pickle.dump(alphabet, f)
+            return alphabet
+
 
 class SplitData:
     def __init__(self, dataset, name, file):
@@ -153,6 +177,5 @@ class SplitData:
         if self.conllu_contents[0].tokens[0] == '_':
             raise ValueError(f"Data {self.dataset} is empty, requires merging")
         tokens_and_tags = [sentence_to_tokens_and_tags(sentence) for sentence in self.conllu_contents]
-        self.tokens = tokens_and_tags[0]
-        self.tags = tokens_and_tags[1]
-        self.vocab = build_vocab_from_sentences_tokens(self.tokens)
+        self.tokens = [t[0] for t in tokens_and_tags]
+        self.tags = [t[1] for t in tokens_and_tags]

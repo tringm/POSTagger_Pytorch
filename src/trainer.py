@@ -3,7 +3,7 @@ import torch.optim as optim
 
 from src.model import CustomedBiLstm
 from src.util.data import LanguageDataset, SplitData
-from src.util.data import get_languagues, sentence_to_tokens_and_tags
+from src.util.data import get_languagues
 from src.util.timer import f_timer
 
 
@@ -30,8 +30,10 @@ def trainer(language, model_choice, config=None):
     elif config['optimizer_choice'] == 'SGD':
         optimizer = optim.SGD(model.parameters(), lr=config['lr'])
 
+    vocab = lang_data.vocab
+    alphabet = lang_data.alphabet
+    print(alphabet.stoi['í'])
     dev_split: SplitData = lang_data.dev_split
-    vocab = dev_split.vocab
-    print(vocab.stoi['lính'])
+
 
 trainer('Vietnamese', 'bilstm')
