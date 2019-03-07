@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9fadb868fce638ca14b9470a489d9d89425c25a614c2f735381269dbc8c37f01"
+            "sha256": "f09d5b67392e083c30ccec430f66d757449ab31cc92f5f92bfee0a6d5e00f813"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,20 @@
         ]
     },
     "default": {
+        "certifi": {
+            "hashes": [
+                "sha256:47f9c83ef4c0c621eaef743f133f09fa8a74a9b75f037e8624f83bd1b6626cb7",
+                "sha256:993f830721089fef441cdfeb4b2c8c9df86f0c63239f06bd025a76a7daddb033"
+            ],
+            "version": "==2018.11.29"
+        },
+        "chardet": {
+            "hashes": [
+                "sha256:84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae",
+                "sha256:fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691"
+            ],
+            "version": "==3.0.4"
+        },
         "conllu": {
             "hashes": [
                 "sha256:1a33b0a975138a72c2abc2e152188156a7fb3c950fe839a3b4d9bd83aefc89ff",
@@ -23,6 +37,13 @@
             ],
             "index": "pypi",
             "version": "==1.2.3"
+        },
+        "idna": {
+            "hashes": [
+                "sha256:c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407",
+                "sha256:ea8b7f6188e6fa117537c3df7da9fc686d485087abf6ac197f9c46432f7e4a3c"
+            ],
+            "version": "==2.8"
         },
         "numpy": {
             "hashes": [
@@ -87,6 +108,13 @@
             ],
             "version": "==5.4.1"
         },
+        "requests": {
+            "hashes": [
+                "sha256:502a824f31acdacb3a35b6690b5fbf0bc41d63a24a45c4004352b0242707598e",
+                "sha256:7bf2a778576d825600030a110f3c0e3e8edc51dfaafe1c146e39a2027784957b"
+            ],
+            "version": "==2.21.0"
+        },
         "six": {
             "hashes": [
                 "sha256:3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c",
@@ -109,12 +137,35 @@
             "index": "pypi",
             "version": "==1.0.1.post2"
         },
+        "torchtext": {
+            "hashes": [
+                "sha256:7b5bc7af67d9c3892bdf6f4895734768f2836c13156a783c96597168176ce2d5",
+                "sha256:869e0860917b5a8660ebaa468f3cd3104a7acf3941a1f86e8e9a8ea61e78113d",
+                "sha256:963160f97cf449edad1183e95d2dd0b4694225b7060a1a8b23e71bccb08022e0"
+            ],
+            "index": "pypi",
+            "version": "==0.3.1"
+        },
         "torchvision": {
             "hashes": [
                 "sha256:4911188843c10a2c66e8f3d0c3989647e626a7a75b8387e2dbbb3e5aa96887ad"
             ],
             "index": "pypi",
             "version": "==0.2.2.post3"
+        },
+        "tqdm": {
+            "hashes": [
+                "sha256:d385c95361699e5cf7622485d9b9eae2d4864b21cd5a2374a9c381ffed701021",
+                "sha256:e22977e3ebe961f72362f6ddfb9197cc531c9737aaf5f607ef09740c849ecd05"
+            ],
+            "version": "==4.31.1"
+        },
+        "urllib3": {
+            "hashes": [
+                "sha256:61bf29cada3fc2fbefad4fdf059ea4bd1b4a86d2b6d15e1c7c0b582b9752fe39",
+                "sha256:de9529817c93f27c8ccbfead6985011db27bd0ddfcdb2d86f3f663385c6a9c22"
+            ],
+            "version": "==1.24.1"
         },
         "xmltodict": {
             "hashes": [

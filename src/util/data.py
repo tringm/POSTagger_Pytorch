@@ -7,6 +7,7 @@ import numpy as np
 import xmltodict
 
 from config import root_path
+from src.util.nlp import build_vocab_from_sentences_tokens
 
 data_path = root_path() / 'data' / 'ud-treebanks-v2.3'
 
@@ -151,4 +152,7 @@ class SplitData:
         self.conllu_contents = load_conllu_file(self.file)
         if self.conllu_contents[0].tokens[0] == '_':
             raise ValueError(f"Data {self.dataset} is empty, requires merging")
-        self.tokens_and_tags = [sentence_to_tokens_and_tags(sentence) for sentence in self.conllu_contents]
+        tokens_and_tags = [sentence_to_tokens_and_tags(sentence) for sentence in self.conllu_contents]
+        self.tokens = tokens_and_tags[0]
+        self.tags = tokens_and_tags[1]
+        self.vocab = build_vocab_from_sentences_tokens(self.tokens)
