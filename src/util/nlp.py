@@ -23,10 +23,10 @@ def build_alphabet_from_sentence_tokens(sentences_tokens):
     """
     def to_char(tokens):
         return [c for tok in tokens for c in list(tok)]
-    senteneces_char = [to_char(sent) for sent in sentences_tokens]
+    sentences_char = [to_char(sent) for sent in sentences_tokens]
     char_field = data.Field(tokenize=list, init_token='<root>')
     fields = [('char', char_field)]
-    examples = [data.Example.fromlist([t], fields) for t in senteneces_char]
+    examples = [data.Example.fromlist([t], fields) for t in sentences_char]
     torch_dataset = data.Dataset(examples, fields)
     char_field.build_vocab(torch_dataset)
     return char_field.vocab

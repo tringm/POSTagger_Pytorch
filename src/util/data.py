@@ -63,6 +63,7 @@ def load_conllu_file(path):
         sentences = conllu.parse(fp.read())
     return sentences
 
+
 class LanguageDataset:
     def __init__(self, name, repo):
         self.name = name
