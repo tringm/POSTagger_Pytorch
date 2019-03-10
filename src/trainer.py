@@ -1,5 +1,6 @@
 from random import shuffle
 
+from pathlib import Path
 import timeit
 
 import numpy as np
@@ -12,7 +13,9 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from src.model import CustomedBiLstm
 from src.util.data import LanguageDataset, SplitData
 from src.util.data import get_languagues
-from src.util.timer import f_timer
+from src.util.misc import f_timer
+from config import root_path
+import json
 
 
 def get_one_batch(tokens, tags, vocab, alphabet, all_tags):
@@ -35,7 +38,6 @@ def get_one_batch(tokens, tags, vocab, alphabet, all_tags):
 
 
 def evaluate(split_dataset, model, vocab, alphabet, all_tags):
-    correct = 0
     preds = []
     actuals = []
 
@@ -54,13 +56,12 @@ def evaluate(split_dataset, model, vocab, alphabet, all_tags):
     return accuracy_score(actuals, preds)
 
 
-
-def trainer(language, model_choice, config=None):
+def trainer(language, config=None):
     if not config:
-        config = {'n_epochs': 20, 'word_embedding_dim': 128, 'char_embedding_dim': 100, 'n_hidden': 100,
+        config = {'n_epochs': 1, 'word_embedding_dim': 128, 'char_embedding_dim': 100, 'n_hidden': 100,
                   'optimizer_choice': 'SGD', 'lr': 0.1}
 
-    all_languages = f_timer(print, get_languagues)
+    all_languages, _ = f_timer(get_languagues)
     if language not in all_languages:
         raise ValueError(f'language {language} not found')
     lang_data: LanguageDataset = all_languages[language]
@@ -70,7 +71,6 @@ def trainer(language, model_choice, config=None):
 
     meta = lang_data.meta
     all_tags = meta['all_tags']
-    vocab_size = meta['n_tokens']
     n_tags = meta['n_tags']
     model = CustomedBiLstm(alphabet_size=len(alphabet), vocab_size=len(vocab), word_embedding_dim=config['word_embedding_dim'],
                            char_embedding_dim=config['char_embedding_dim'], n_hidden=config['n_hidden'], n_tags=n_tags)
@@ -83,38 +83,64 @@ def trainer(language, model_choice, config=None):
 
     train_split: SplitData = lang_data.train_split
 
-    for epoch in range(config['n_epochs']):
-        start_epoch = timeit.default_timer()
-        indices = np.arange(len(train_split.tokens))
-        shuffle(indices)
-        train_tokens = [train_split.tokens[idx] for idx in indices]
-        train_tags = [train_split.tags[idx] for idx in indices]
+    results = {}
 
-        total_loss = 0
-        model.zero_grad()
+    with (root_path() / 'log' / (lang_data.name + '.log')).open(mode='w') as f:
+        results['Language'] = lang_data.name
+        f.write(f"Language: {lang_data.name} \n")
+        f.write(f"Model: {model} \n")
+        results['Model'] = str(model)
+        results['Time'] = []
+        results['Performance'] = []
+        for epoch in range(config['n_epochs']):
+            epoch_time = {'epoch': epoch + 1}
+            epoch_perf = {'epoch': epoch + 1}
+            start_epoch = timeit.default_timer()
 
-        for idx in range(len(train_split.tokens)):
-            tokens_tensor, char_tensor, tags_tensor = get_one_batch(train_tokens[idx], train_tags[idx],
-                                                                    vocab, alphabet, all_tags)
-            log_probs = model(tokens_tensor, char_tensor)
-            batch_loss = loss_function(log_probs, tags_tensor)
-            batch_loss.backward()
-            optimizer.step()
-            total_loss += batch_loss
+            indices = np.arange(len(train_split.tokens))
+            shuffle(indices)
+            train_tokens = [train_split.tokens[idx] for idx in indices]
+            train_tags = [train_split.tags[idx] for idx in indices]
 
-        print('epoch: %d, loss: %.4f' % ((epoch + 1), total_loss))
+            total_loss = 0
+            model.zero_grad()
 
-        start_evaluate_train = timeit.default_timer()
-        train_acc = evaluate(lang_data.train_split, model, vocab, alphabet, all_tags)
-        print('evaluation train took %.4f' % (timeit.default_timer() - start_evaluate_train))
-        start_evaluate_dev = timeit.default_timer()
-        dev_acc = evaluate(lang_data.dev_split, model, vocab, alphabet, all_tags)
-        print('evaluation dev took %.4f' % (timeit.default_timer() - start_evaluate_dev))
+            for idx in range(len(train_split.tokens)):
+                tokens_tensor, char_tensor, tags_tensor = get_one_batch(train_tokens[idx], train_tags[idx],
+                                                                        vocab, alphabet, all_tags)
+                log_probs = model(tokens_tensor, char_tensor)
+                batch_loss = loss_function(log_probs, tags_tensor)
+                batch_loss.backward()
+                optimizer.step()
+                total_loss += batch_loss
 
-        print('epoch: %d, loss: %.4f, train acc: %.2f%%, dev acc: %.2f%%' %
-              (epoch + 1, total_loss, train_acc, dev_acc))
+            training_time = timeit.default_timer() - start_epoch
+            f.write('\t traing the model with %d sample took %.4f \n' % (len(train_split.tokens), training_time))
+            epoch_time['train'] = training_time
 
-        print('One epoch took %.4f' %(timeit.default_timer() - start_epoch))
+            train_acc, train_eval_time = f_timer(evaluate, lang_data.train_split, model, vocab, alphabet, all_tags)
+            dev_acc, test_eval_time = f_timer(evaluate, lang_data.dev_split, model, vocab, alphabet, all_tags)
+            f.write('\t evaluation train split took %.4f \n' % train_eval_time)
+            f.write('\t evaluation dev took %.4f \n' % test_eval_time)
+            epoch_time['train_eval'] = train_eval_time
+            epoch_time['test_eval'] = test_eval_time
+
+            f.write('\t one epoch took %.4f \n' % (timeit.default_timer() - start_epoch))
+            f.write('epoch: %d, loss: %.4f, train acc: %.2f%%, dev acc: %.2f%% \n' %
+                    (epoch + 1, total_loss, train_acc, dev_acc))
+            epoch_perf['loss'] = ("%.4f" % total_loss)
+            epoch_perf['train_acc'] = ("%.2f" % train_acc)
+            epoch_perf['dev_acc'] = ("%.2f" % dev_acc)
+
+            results['Time'].append(epoch_time)
+            results['Performance'].append(epoch_perf)
+
+        test_acc = evaluate(lang_data.test_split, model, vocab, alphabet, all_tags)
+        f.write('test acc: %.2f%% \n' % test_acc)
+        results['Accuracy'] = test_acc
+
+    with (root_path() / 'src' / 'out' / (lang_data.name + '.json')).open(mode='w') as f:
+        json.dump(results, f, indent=4, sort_keys=True)
 
 
-trainer('Vietnamese', 'bilstm')
+trainer('Vietnamese')
