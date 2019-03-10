@@ -1,0 +1,21 @@
+{
+    "Accuracy": 0.049586776859504134,
+    "Language": "French",
+    "Model": "CustomedBiLstm(\n  (char_embedding_layer): Embedding(75, 100)\n  (lower_LSTM): LSTM(100, 100, batch_first=True)\n  (word_embedding_layer): Embedding(4622, 128)\n  (upper_LSTM): LSTM(228, 100, bidirectional=True)\n  (hidden_to_tag): Linear(in_features=200, out_features=16, bias=True)\n)",
+    "Performance": [
+        {
+            "dev_acc": "0.06",
+            "epoch": 1,
+            "loss": "93691.5469",
+            "train_acc": "0.07"
+        }
+    ],
+    "Time": [
+        {
+            "epoch": 1,
+            "test_eval": 5.128367491999597,
+            "train": 18.98572349099959,
+            "train_eval": 7.8527668440001435
+        }
+    ]
+}

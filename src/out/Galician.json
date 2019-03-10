@@ -1,0 +1,21 @@
+{
+    "Accuracy": 0.041811846689895474,
+    "Language": "Galician",
+    "Model": "CustomedBiLstm(\n  (char_embedding_layer): Embedding(121, 100)\n  (lower_LSTM): LSTM(100, 100, batch_first=True)\n  (word_embedding_layer): Embedding(17318, 128)\n  (upper_LSTM): LSTM(228, 100, bidirectional=True)\n  (hidden_to_tag): Linear(in_features=200, out_features=16, bias=True)\n)",
+    "Performance": [
+        {
+            "dev_acc": "0.03",
+            "epoch": 1,
+            "loss": "80441.3516",
+            "train_acc": "0.04"
+        }
+    ],
+    "Time": [
+        {
+            "epoch": 1,
+            "test_eval": 15.257208427000478,
+            "train": 97.61724032700022,
+            "train_eval": 41.27012396800001
+        }
+    ]
+}

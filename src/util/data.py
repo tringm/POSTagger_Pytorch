@@ -50,7 +50,12 @@ def get_languagues():
 def sentence_to_tokens_and_tags(sentence):
     tokens = []
     tags = []
+    warn = False
     for idx, token in enumerate(sentence):
+        # Ugly fix: This is for cases when there is missing word or missing tags.
+        # E.g:1-2	No	_	_	_	_	_	_	_	_ (Galician-CTG-dev first line)
+        if token['form'] == '_' or token['upostag'] == '_':
+            continue
         tags.append(token['upostag'])
         tokens.append(token['form'])
     return tokens, tags
@@ -58,7 +63,6 @@ def sentence_to_tokens_and_tags(sentence):
 
 def load_conllu_file(path):
     # TODO: try conllu.parse_incr for not loading the whole file into memory
-    print(path)
     with path.open(mode='r') as fp:
         sentences = conllu.parse(fp.read())
     return sentences

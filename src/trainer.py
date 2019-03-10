@@ -1,7 +1,6 @@
-from random import shuffle
-
-from pathlib import Path
+import json
 import timeit
+from random import shuffle
 
 import numpy as np
 import torch
@@ -10,12 +9,11 @@ import torch.optim as optim
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import MultiLabelBinarizer
 
+from config import root_path
 from src.model import CustomedBiLstm
 from src.util.data import LanguageDataset, SplitData
 from src.util.data import get_languagues
 from src.util.misc import f_timer
-from config import root_path
-import json
 
 
 def get_one_batch(tokens, tags, vocab, alphabet, all_tags):
@@ -58,7 +56,7 @@ def evaluate(split_dataset, model, vocab, alphabet, all_tags):
 
 def trainer(language, config=None):
     if not config:
-        config = {'n_epochs': 1, 'word_embedding_dim': 128, 'char_embedding_dim': 100, 'n_hidden': 100,
+        config = {'n_epochs': 20, 'word_embedding_dim': 128, 'char_embedding_dim': 100, 'n_hidden': 100,
                   'optimizer_choice': 'SGD', 'lr': 0.1}
 
     all_languages, _ = f_timer(get_languagues)
@@ -141,6 +139,3 @@ def trainer(language, config=None):
 
     with (root_path() / 'src' / 'out' / (lang_data.name + '.json')).open(mode='w') as f:
         json.dump(results, f, indent=4, sort_keys=True)
-
-
-trainer('Vietnamese')
