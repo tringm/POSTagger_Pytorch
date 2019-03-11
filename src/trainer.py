@@ -57,7 +57,7 @@ def evaluate(split_dataset, model, vocab, alphabet, all_tags):
 def trainer(language, config=None):
     if not config:
         config = {'n_epochs': 20, 'word_embedding_dim': 128, 'char_embedding_dim': 100, 'n_hidden': 100,
-                  'optimizer_choice': 'SGD', 'lr': 0.1}
+                  'optimizer_choice': 'Adam', 'lr': 0.0001}
 
     all_languages, _ = f_timer(get_languagues)
     if language not in all_languages:
@@ -83,7 +83,7 @@ def trainer(language, config=None):
 
     results = {}
 
-    with (root_path() / 'log' / (lang_data.name + '.log')).open(mode='w') as f:
+    with (root_path() / 'src' / 'out' / 'log' / (lang_data.name + '.log')).open(mode='w') as f:
         results['Language'] = lang_data.name
         f.write(f"Language: {lang_data.name} \n")
         f.write(f"Model: {model} \n")
@@ -137,5 +137,5 @@ def trainer(language, config=None):
         f.write('test acc: %.2f%% \n' % test_acc)
         results['Accuracy'] = test_acc
 
-    with (root_path() / 'src' / 'out' / (lang_data.name + '.json')).open(mode='w') as f:
+    with (root_path() / 'src' / 'out' / 'test' / (lang_data.name + '.json')).open(mode='w') as f:
         json.dump(results, f, indent=4, sort_keys=True)
