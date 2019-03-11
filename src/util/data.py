@@ -154,8 +154,7 @@ class LanguageDataset:
             with (self.repo / 'vocab.pkl').open(mode='rb') as f:
                 return pickle.load(f)
         else:
-            all_tokens = self.dev_split.tokens + self.train_split.tokens + self.test_split.tokens
-            vocab = build_vocab_from_sentences_tokens(all_tokens)
+            vocab = build_vocab_from_sentences_tokens(self.train_split.tokens)
             with (self.repo / 'vocab.pkl').open(mode='wb') as f:
                 pickle.dump(vocab, f)
             return vocab
@@ -166,8 +165,7 @@ class LanguageDataset:
             with (self.repo / 'alphabet.pkl').open(mode='rb') as f:
                 return pickle.load(f)
         else:
-            all_tokens = self.dev_split.tokens + self.train_split.tokens + self.test_split.tokens
-            alphabet = build_alphabet_from_sentence_tokens(all_tokens)
+            alphabet = build_alphabet_from_sentence_tokens(self.train_split.tokens)
             with (self.repo / 'alphabet.pkl').open(mode='wb') as f:
                 pickle.dump(alphabet, f)
             return alphabet

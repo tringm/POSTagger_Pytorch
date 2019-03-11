@@ -85,8 +85,10 @@ def trainer(language, config=None):
 
     with (root_path() / 'src' / 'out' / 'log' / (lang_data.name + '.log')).open(mode='w') as f:
         results['Language'] = lang_data.name
+        results['Config'] = config
         f.write(f"Language: {lang_data.name} \n")
         f.write(f"Model: {model} \n")
+        f.write(f"Config: {config}")
         results['Model'] = str(model)
         results['Time'] = []
         results['Performance'] = []
@@ -124,17 +126,17 @@ def trainer(language, config=None):
             epoch_time['test_eval'] = test_eval_time
 
             f.write('\t one epoch took %.4f \n' % (timeit.default_timer() - start_epoch))
-            f.write('epoch: %d, loss: %.4f, train acc: %.2f%%, dev acc: %.2f%% \n' %
+            f.write('epoch: %d, loss: %.4f, train acc: %.3f, dev acc: %.3f \n' %
                     (epoch + 1, total_loss, train_acc, dev_acc))
             epoch_perf['loss'] = ("%.4f" % total_loss)
-            epoch_perf['train_acc'] = ("%.2f" % train_acc)
-            epoch_perf['dev_acc'] = ("%.2f" % dev_acc)
+            epoch_perf['train_acc'] = ("%.3f" % train_acc)
+            epoch_perf['dev_acc'] = ("%.3f" % dev_acc)
 
             results['Time'].append(epoch_time)
             results['Performance'].append(epoch_perf)
 
         test_acc = evaluate(lang_data.test_split, model, vocab, alphabet, all_tags)
-        f.write('test acc: %.2f%% \n' % test_acc)
+        f.write('test acc: %.3f%% \n' % test_acc)
         results['Accuracy'] = test_acc
 
     with (root_path() / 'src' / 'out' / 'test' / (lang_data.name + '.json')).open(mode='w') as f:
