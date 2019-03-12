@@ -12,7 +12,7 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from config import root_path
 from src.model import CustomedBiLstm
 from src.util.data import LanguageDataset, SplitData
-from src.util.data import get_languagues
+from src.util.data import get_languages
 from src.util.misc import f_timer
 
 
@@ -54,12 +54,8 @@ def evaluate(split_dataset, model, vocab, alphabet, all_tags):
     return accuracy_score(actuals, preds)
 
 
-def trainer(language, config=None):
-    if not config:
-        config = {'n_epochs': 20, 'word_embedding_dim': 128, 'char_embedding_dim': 100, 'n_hidden': 100,
-                  'optimizer_choice': 'Adam', 'lr': 0.0001}
-
-    all_languages, _ = f_timer(get_languagues)
+def trainer(language, configs):
+    all_languages, _ = f_timer(get_languages)
     if language not in all_languages:
         raise ValueError(f'language {language} not found')
     lang_data: LanguageDataset = all_languages[language]
@@ -70,14 +66,15 @@ def trainer(language, config=None):
     meta = lang_data.meta
     all_tags = meta['all_tags']
     n_tags = meta['n_tags']
-    model = CustomedBiLstm(alphabet_size=len(alphabet), vocab_size=len(vocab), word_embedding_dim=config['word_embedding_dim'],
-                           char_embedding_dim=config['char_embedding_dim'], n_hidden=config['n_hidden'], n_tags=n_tags)
+    model = CustomedBiLstm(alphabet_size=len(alphabet), vocab_size=len(vocab), word_embed_dim=configs['word_embed_dim'],
+                           char_embed_dim=configs['char_embed_dim'], char_hidden_dim=configs['char_hidden_dim'],
+                           word_hidden_dim=configs['word_hidden_dim'], n_tags=n_tags)
 
     loss_function = nn.NLLLoss()
-    if config['optimizer_choice'] == 'Adam':
-        optimizer = optim.Adam(model.parameters(), lr=config['lr'])
-    elif config['optimizer_choice'] == 'SGD':
-        optimizer = optim.SGD(model.parameters(), lr=config['lr'])
+    if configs['optimizer'] == 'Adam':
+        optimizer = optim.Adam(model.parameters(), lr=configs['lr'])
+    elif configs['optimizer'] == 'SGD':
+        optimizer = optim.SGD(model.parameters(), lr=configs['lr'])
 
     train_split: SplitData = lang_data.train_split
 
@@ -85,14 +82,14 @@ def trainer(language, config=None):
 
     with (root_path() / 'src' / 'out' / 'log' / (lang_data.name + '.log')).open(mode='w') as f:
         results['Language'] = lang_data.name
-        results['Config'] = config
+        results['Config'] = configs
         f.write(f"Language: {lang_data.name} \n")
         f.write(f"Model: {model} \n")
-        f.write(f"Config: {config}")
+        f.write(f"Config: {configs}")
         results['Model'] = str(model)
         results['Time'] = []
         results['Performance'] = []
-        for epoch in range(config['n_epochs']):
+        for epoch in range(configs['n_epochs']):
             epoch_time = {'epoch': epoch + 1}
             epoch_perf = {'epoch': epoch + 1}
             start_epoch = timeit.default_timer()

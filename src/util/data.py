@@ -12,7 +12,7 @@ from src.util.nlp import build_vocab_from_sentences_tokens, build_alphabet_from_
 data_path = root_path() / 'data' / 'ud-treebanks-v2.3'
 
 
-def get_languagues():
+def get_languages():
     """
     Find languages in the dataset that has train, dev, and test set.
     If the languages has multiple dataset, chose the directory with the largest amount of tokens
@@ -50,7 +50,6 @@ def get_languagues():
 def sentence_to_tokens_and_tags(sentence):
     tokens = []
     tags = []
-    warn = False
     for idx, token in enumerate(sentence):
         # Ugly fix: This is for cases when there is missing word or missing tags.
         # E.g:1-2	No	_	_	_	_	_	_	_	_ (Galician-CTG-dev first line)
@@ -138,7 +137,6 @@ class LanguageDataset:
     @property
     def dev_split(self):
         return self.splits_data['dev']
-
 
     @property
     def train_split(self):
