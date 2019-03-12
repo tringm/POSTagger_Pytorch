@@ -36,8 +36,7 @@ def get_one_batch(tokens, tags, vocab, alphabet, all_tags):
 
 
 def evaluate(split_dataset, model, vocab, alphabet, all_tags):
-    preds = []
-    actuals = []
+    accuracy = []
 
     for idx in range(len(split_dataset.tokens)):
         tokens = split_dataset.tokens[idx]
@@ -45,13 +44,8 @@ def evaluate(split_dataset, model, vocab, alphabet, all_tags):
         tokens_tensor, char_tensor, tags_tensor = get_one_batch(tokens, tags, vocab, alphabet, all_tags)
         log_probs = model(tokens_tensor, char_tensor)
         _, predicted = torch.max(log_probs, dim=1)
-        preds.append(predicted.data.numpy().tolist())
-        actuals.append(tags_tensor.data.numpy().tolist())
-
-    actuals = MultiLabelBinarizer(classes=np.arange(len(all_tags))).fit_transform(actuals)
-    preds = MultiLabelBinarizer(classes=np.arange(len(all_tags))).fit_transform(preds)
-
-    return accuracy_score(actuals, preds)
+        accuracy.append(accuracy_score(tags_tensor.data.numpy().tolist(), predicted.data.numpy().tolist()))
+    return sum(accuracy) / len(accuracy)
 
 
 def trainer(language, configs):
