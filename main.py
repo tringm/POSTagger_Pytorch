@@ -2,6 +2,7 @@ import argparse
 
 from src.trainer import trainer
 from src.util.data import get_languages
+from torch import cuda
 
 languages = [t for t in get_languages()]
 languages_arguments = languages + ['all']
@@ -12,6 +13,10 @@ if __name__ == '__main__':
                         help='Language dataset to be used among: ' + ' | '.join(languages_arguments),
                         type=str,
                         required=True)
+    parser.add_argument('--gpu',
+                        help='Use GPU (default: False)',
+                        type=bool,
+                        default=False)
     # TODO: Running shell script from within Python can be unsafe?
     # parser.add_argument('--download_data', help='Download the Universal Dependency Dataset. '
     #                     'This will delete all the cached files in the data folder including built vocab and alphabet '
@@ -56,15 +61,17 @@ if __name__ == '__main__':
         parser.print_help()
         exit()
 
-    config = {'n_epochs': args.n_epochs, 'word_embed_dim': args.word_embed_dim, 'char_embed_dim': args.char_embed_dim,
+    use_gpu = args.gpu and cuda.is_available()
+
+    configs = {'n_epochs': args.n_epochs, 'word_embed_dim': args.word_embed_dim, 'char_embed_dim': args.char_embed_dim,
               'char_hidden_dim': args.char_hidden_dim, 'word_hidden_dim': args.word_hidden_dim,
-              'optimizer': args.optimizer, 'lr': args.lr}
+              'optimizer': args.optimizer, 'lr': args.lr, 'use_gpu': use_gpu}
 
     if args.language == 'all':
         for lang in languages:
-            trainer(lang, config)
+            trainer(lang, configs)
     else:
-        trainer(args.language, config)
+        trainer(args.language, configs)
 
 
 
