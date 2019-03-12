@@ -31,9 +31,9 @@ ssh uname@taito.csc.fi
 module purge
 module load python-env/3.6.3-ml
 pip install conllu --user
-pip install conllu --xmltodict
+pip install xmltodict --user
 cd POSTagger_Pytorch
 chmod +x ./downloadData.sh
 ./downloadData.sh
-python main.py --language all
+python main.py --language all --gpu True
 ```

@@ -9,14 +9,19 @@ languages_arguments = languages + ['all']
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run the bi-LSTM POS tagger')
-    parser.add_argument('--language',
-                        help='Language dataset to be used among: ' + ' | '.join(languages_arguments),
-                        type=str,
-                        required=True)
-    parser.add_argument('--gpu',
-                        help='Use GPU (default: False)',
-                        type=bool,
-                        default=False)
+    main_group = parser.add_argument_group('Main', 'Main arguments')
+    main_group.add_argument('--language',
+                            help='Language dataset to be used among: ' + ' | '.join(languages_arguments),
+                            type=str,
+                            required=True)
+    main_group.add_argument('--gpu',
+                            help='Use GPU (default: False)',
+                            type=bool,
+                            default=False)
+    main_group.add_argument('--save_model',
+                            help='Save the model(s) (default: False)',
+                            type=bool,
+                            default=False)
     # TODO: Running shell script from within Python can be unsafe?
     # parser.add_argument('--download_data', help='Download the Universal Dependency Dataset. '
     #                     'This will delete all the cached files in the data folder including built vocab and alphabet '
@@ -65,7 +70,7 @@ if __name__ == '__main__':
 
     configs = {'n_epochs': args.n_epochs, 'word_embed_dim': args.word_embed_dim, 'char_embed_dim': args.char_embed_dim,
               'char_hidden_dim': args.char_hidden_dim, 'word_hidden_dim': args.word_hidden_dim,
-              'optimizer': args.optimizer, 'lr': args.lr, 'use_gpu': use_gpu}
+              'optimizer': args.optimizer, 'lr': args.lr, 'use_gpu': use_gpu, 'save_model': args.save_model}
 
     if args.language == 'all':
         for lang in languages:

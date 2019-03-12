@@ -8,5 +8,7 @@ __pycache__/
 data/
 
 # Log file
-log/
 *.log
+
+# Cached models
+*.model

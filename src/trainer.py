@@ -145,3 +145,7 @@ def trainer(language, configs):
 
     with (root_path() / 'src' / 'out' / 'test' / (lang_data.name + '.json')).open(mode='w') as f:
         json.dump(results, f, indent=4, sort_keys=True)
+
+    if configs['save_model']:
+        model_name = lang_data.name + '.model'
+        torch.save(model, root_path() / 'src' / 'out' / 'cache' / model_name)
