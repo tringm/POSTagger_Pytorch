@@ -1,0 +1,109 @@
+Language: Korean 
+Model: CustomedBiLstm(
+  (char_embedding_layer): Embedding(1733, 100)
+  (lower_LSTM): LSTM(100, 100, batch_first=True)
+  (word_embedding_layer): Embedding(27754, 128)
+  (upper_LSTM): LSTM(228, 100, bidirectional=True)
+  (hidden_to_tag): Linear(in_features=200, out_features=16, bias=True)
+) 
+Config: {'n_epochs': 20, 'word_embed_dim': 128, 'char_embed_dim': 100, 'char_hidden_dim': 100, 'word_hidden_dim': 100, 'optimizer': 'Adam', 'lr': 0.0001, 'use_gpu': True, 'save_model': True}	 traing the model with 4400 sample took 59.5414 
+	 evaluation train split took 10.4835 
+	 evaluation dev took 1.8987 
+	 one epoch took 71.9236 
+epoch: 1, loss: 4487.2695, train acc: 0.884, dev acc: 0.800 
+	 traing the model with 4400 sample took 66.0093 
+	 evaluation train split took 9.6930 
+	 evaluation dev took 1.8257 
+	 one epoch took 77.5280 
+epoch: 2, loss: 1480.6027, train acc: 0.955, dev acc: 0.816 
+	 traing the model with 4400 sample took 67.5603 
+	 evaluation train split took 8.9620 
+	 evaluation dev took 1.8125 
+	 one epoch took 78.3348 
+epoch: 3, loss: 697.6170, train acc: 0.965, dev acc: 0.715 
+	 traing the model with 4400 sample took 65.5104 
+	 evaluation train split took 9.3227 
+	 evaluation dev took 1.7956 
+	 one epoch took 76.6288 
+epoch: 4, loss: 502.6017, train acc: 0.970, dev acc: 0.815 
+	 traing the model with 4400 sample took 65.4498 
+	 evaluation train split took 9.4850 
+	 evaluation dev took 1.8045 
+	 one epoch took 76.7393 
+epoch: 5, loss: 410.5341, train acc: 0.978, dev acc: 0.775 
+	 traing the model with 4400 sample took 65.0292 
+	 evaluation train split took 9.4820 
+	 evaluation dev took 1.8210 
+	 one epoch took 76.3323 
+epoch: 6, loss: 349.5240, train acc: 0.980, dev acc: 0.724 
+	 traing the model with 4400 sample took 64.7090 
+	 evaluation train split took 9.6517 
+	 evaluation dev took 1.8083 
+	 one epoch took 76.1691 
+epoch: 7, loss: 314.7656, train acc: 0.982, dev acc: 0.765 
+	 traing the model with 4400 sample took 65.7447 
+	 evaluation train split took 9.0293 
+	 evaluation dev took 1.8207 
+	 one epoch took 76.5946 
+epoch: 8, loss: 258.1175, train acc: 0.985, dev acc: 0.755 
+	 traing the model with 4400 sample took 66.1780 
+	 evaluation train split took 9.2103 
+	 evaluation dev took 1.8132 
+	 one epoch took 77.2015 
+epoch: 9, loss: 236.2134, train acc: 0.983, dev acc: 0.785 
+	 traing the model with 4400 sample took 64.8995 
+	 evaluation train split took 9.0391 
+	 evaluation dev took 1.8171 
+	 one epoch took 75.7558 
+epoch: 10, loss: 243.6159, train acc: 0.987, dev acc: 0.765 
+	 traing the model with 4400 sample took 64.2923 
+	 evaluation train split took 9.2247 
+	 evaluation dev took 1.8175 
+	 one epoch took 75.3346 
+epoch: 11, loss: 200.0256, train acc: 0.987, dev acc: 0.813 
+	 traing the model with 4400 sample took 64.4953 
+	 evaluation train split took 8.8255 
+	 evaluation dev took 1.8068 
+	 one epoch took 75.1276 
+epoch: 12, loss: 192.6083, train acc: 0.988, dev acc: 0.783 
+	 traing the model with 4400 sample took 65.0328 
+	 evaluation train split took 8.7460 
+	 evaluation dev took 1.8107 
+	 one epoch took 75.5896 
+epoch: 13, loss: 181.6147, train acc: 0.989, dev acc: 0.803 
+	 traing the model with 4400 sample took 63.5597 
+	 evaluation train split took 9.3785 
+	 evaluation dev took 1.8120 
+	 one epoch took 74.7502 
+epoch: 14, loss: 173.4450, train acc: 0.989, dev acc: 0.797 
+	 traing the model with 4400 sample took 63.7060 
+	 evaluation train split took 9.1138 
+	 evaluation dev took 1.8017 
+	 one epoch took 74.6215 
+epoch: 15, loss: 176.4669, train acc: 0.991, dev acc: 0.798 
+	 traing the model with 4400 sample took 63.2336 
+	 evaluation train split took 9.2978 
+	 evaluation dev took 1.7986 
+	 one epoch took 74.3300 
+epoch: 16, loss: 153.6774, train acc: 0.991, dev acc: 0.815 
+	 traing the model with 4400 sample took 63.7783 
+	 evaluation train split took 9.3271 
+	 evaluation dev took 1.8062 
+	 one epoch took 74.9116 
+epoch: 17, loss: 157.1339, train acc: 0.990, dev acc: 0.808 
+	 traing the model with 4400 sample took 63.2606 
+	 evaluation train split took 9.2690 
+	 evaluation dev took 1.8100 
+	 one epoch took 74.3396 
+epoch: 18, loss: 153.4448, train acc: 0.992, dev acc: 0.812 
+	 traing the model with 4400 sample took 63.7253 
+	 evaluation train split took 9.0887 
+	 evaluation dev took 1.8086 
+	 one epoch took 74.6226 
+epoch: 19, loss: 139.3165, train acc: 0.992, dev acc: 0.798 
+	 traing the model with 4400 sample took 63.7584 
+	 evaluation train split took 8.8721 
+	 evaluation dev took 1.7896 
+	 one epoch took 74.4202 
+epoch: 20, loss: 140.4012, train acc: 0.991, dev acc: 0.797 
+test acc: 0.820% 

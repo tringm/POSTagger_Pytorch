@@ -1,0 +1,109 @@
+Language: Italian 
+Model: CustomedBiLstm(
+  (char_embedding_layer): Embedding(128, 100)
+  (lower_LSTM): LSTM(100, 100, batch_first=True)
+  (word_embedding_layer): Embedding(28309, 128)
+  (upper_LSTM): LSTM(228, 100, bidirectional=True)
+  (hidden_to_tag): Linear(in_features=200, out_features=17, bias=True)
+) 
+Config: {'n_epochs': 20, 'word_embed_dim': 128, 'char_embed_dim': 100, 'char_hidden_dim': 100, 'word_hidden_dim': 100, 'optimizer': 'Adam', 'lr': 0.0001, 'use_gpu': True, 'save_model': True}	 traing the model with 13121 sample took 231.9639 
+	 evaluation train split took 40.3729 
+	 evaluation dev took 1.5803 
+	 one epoch took 273.9171 
+epoch: 1, loss: 5589.3223, train acc: 0.948, dev acc: 0.905 
+	 traing the model with 13121 sample took 219.5324 
+	 evaluation train split took 35.4436 
+	 evaluation dev took 1.5046 
+	 one epoch took 256.4807 
+epoch: 2, loss: 2706.0627, train acc: 0.948, dev acc: 0.896 
+	 traing the model with 13121 sample took 207.6156 
+	 evaluation train split took 35.0000 
+	 evaluation dev took 1.4871 
+	 one epoch took 244.1027 
+epoch: 3, loss: 2507.6167, train acc: 0.949, dev acc: 0.895 
+	 traing the model with 13121 sample took 202.5134 
+	 evaluation train split took 34.9317 
+	 evaluation dev took 1.6758 
+	 one epoch took 239.1209 
+epoch: 4, loss: 2487.7627, train acc: 0.949, dev acc: 0.892 
+	 traing the model with 13121 sample took 212.6722 
+	 evaluation train split took 34.8859 
+	 evaluation dev took 1.4824 
+	 one epoch took 249.0405 
+epoch: 5, loss: 2313.3257, train acc: 0.952, dev acc: 0.892 
+	 traing the model with 13121 sample took 216.3471 
+	 evaluation train split took 34.9634 
+	 evaluation dev took 1.4827 
+	 one epoch took 252.7932 
+epoch: 6, loss: 2261.4988, train acc: 0.953, dev acc: 0.899 
+	 traing the model with 13121 sample took 218.1934 
+	 evaluation train split took 35.0667 
+	 evaluation dev took 1.4916 
+	 one epoch took 254.7518 
+epoch: 7, loss: 2213.7227, train acc: 0.953, dev acc: 0.897 
+	 traing the model with 13121 sample took 218.5997 
+	 evaluation train split took 36.0569 
+	 evaluation dev took 1.4850 
+	 one epoch took 256.1416 
+epoch: 8, loss: 2261.1843, train acc: 0.953, dev acc: 0.897 
+	 traing the model with 13121 sample took 222.0328 
+	 evaluation train split took 35.6623 
+	 evaluation dev took 1.4847 
+	 one epoch took 259.1798 
+epoch: 9, loss: 2191.2957, train acc: 0.954, dev acc: 0.894 
+	 traing the model with 13121 sample took 223.4335 
+	 evaluation train split took 35.8896 
+	 evaluation dev took 1.4857 
+	 one epoch took 260.8089 
+epoch: 10, loss: 2204.1321, train acc: 0.954, dev acc: 0.894 
+	 traing the model with 13121 sample took 223.5628 
+	 evaluation train split took 34.9105 
+	 evaluation dev took 1.4852 
+	 one epoch took 259.9585 
+epoch: 11, loss: 2214.2126, train acc: 0.956, dev acc: 0.892 
+	 traing the model with 13121 sample took 227.4641 
+	 evaluation train split took 35.2181 
+	 evaluation dev took 1.4994 
+	 one epoch took 264.1816 
+epoch: 12, loss: 2160.7642, train acc: 0.953, dev acc: 0.889 
+	 traing the model with 13121 sample took 228.0023 
+	 evaluation train split took 34.8445 
+	 evaluation dev took 1.4824 
+	 one epoch took 264.3293 
+epoch: 13, loss: 2172.9343, train acc: 0.957, dev acc: 0.894 
+	 traing the model with 13121 sample took 224.1139 
+	 evaluation train split took 37.9887 
+	 evaluation dev took 1.4820 
+	 one epoch took 263.5846 
+epoch: 14, loss: 2123.1680, train acc: 0.956, dev acc: 0.896 
+	 traing the model with 13121 sample took 221.5188 
+	 evaluation train split took 34.8648 
+	 evaluation dev took 1.4843 
+	 one epoch took 257.8680 
+epoch: 15, loss: 2138.5125, train acc: 0.955, dev acc: 0.892 
+	 traing the model with 13121 sample took 224.4435 
+	 evaluation train split took 34.8858 
+	 evaluation dev took 1.4809 
+	 one epoch took 260.8102 
+epoch: 16, loss: 2111.0759, train acc: 0.957, dev acc: 0.895 
+	 traing the model with 13121 sample took 218.6130 
+	 evaluation train split took 34.9866 
+	 evaluation dev took 1.4881 
+	 one epoch took 255.0878 
+epoch: 17, loss: 2103.0732, train acc: 0.956, dev acc: 0.889 
+	 traing the model with 13121 sample took 218.4717 
+	 evaluation train split took 35.5205 
+	 evaluation dev took 1.4791 
+	 one epoch took 255.4714 
+epoch: 18, loss: 2052.0215, train acc: 0.959, dev acc: 0.897 
+	 traing the model with 13121 sample took 219.8241 
+	 evaluation train split took 35.8600 
+	 evaluation dev took 1.4903 
+	 one epoch took 257.1743 
+epoch: 19, loss: 2004.0992, train acc: 0.958, dev acc: 0.896 
+	 traing the model with 13121 sample took 218.4116 
+	 evaluation train split took 35.0123 
+	 evaluation dev took 1.4896 
+	 one epoch took 254.9135 
+epoch: 20, loss: 1991.2009, train acc: 0.959, dev acc: 0.899 
+test acc: 0.904% 

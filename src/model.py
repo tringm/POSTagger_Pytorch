@@ -23,8 +23,6 @@ class CustomedBiLstm(nn.Module):
         self.n_tags = n_tags
 
         self.char_embedding_layer = nn.Embedding(self.alphabet_size, self.char_embed_dim)
-        # if use_gpu:
-        #     self.char_embedding_layer.cuda()
         self.lower_LSTM = nn.LSTM(input_size=self.char_embed_dim,
                                   hidden_size=self.char_hidden_dim,
                                   batch_first=True)
@@ -32,8 +30,6 @@ class CustomedBiLstm(nn.Module):
         self.upper_LSTM = nn.LSTM(input_size=self.char_hidden_dim + self.word_embed_dim,
                                   hidden_size=self.word_hidden_dim,
                                   bidirectional=True)
-        # if use_gpu:
-        #     self.word_embedding_layer.cuda()
         self.hidden_to_tag = nn.Linear(self.word_hidden_dim*2, self.n_tags)
 
     def forward(self, tokens_tensor, char_tensor):

@@ -84,15 +84,29 @@ def trainer(language, configs):
     results = {}
 
     with (root_path() / 'src' / 'out' / 'log' / (lang_data.name + '.log')).open(mode='w') as f:
+        # TODO: Refactor this. Is both JSON and log neccessary?
         results['Language'] = lang_data.name
+        results['Repo'] = lang_data.repo.stem
+        results['Stats'] = {'n_tokens': meta['n_tokens'],
+                            'n_train': len(train_split.tokens),
+                            'n_dev': len(lang_data.dev_split.tokens),
+                            'n_test': len(lang_data.test_split.tokens)}
         results['Config'] = configs
-        f.write(f"Language: {lang_data.name} \n")
-        f.write(f"Model: {model} \n")
-        f.write(f"Config: {configs}")
         results['Model'] = str(model)
         results['Time'] = []
         results['Performance'] = []
+
+        f.write(f"Language: {lang_data.name} \n")
+        f.write(f"Repo: {lang_data.repo} \n")
+        f.write(f"Number of tokens: {meta['n_tokens']}")
+        f.write(f"Train size: {len(train_split.tokens)}")
+        f.write(f"Dev size: {len(lang_data.dev_split.tokens)}")
+        f.write(f"Test size: {len(lang_data.test_split.tokens)}")
+        f.write(f"Model: {model} \n")
+        f.write(f"Config: {configs}\n")
+
         for epoch in range(configs['n_epochs']):
+            f.write(f"epoch: {epoch}\n")
             epoch_time = {'epoch': epoch + 1}
             epoch_perf = {'epoch': epoch + 1}
             start_epoch = timeit.default_timer()
@@ -130,8 +144,8 @@ def trainer(language, configs):
             epoch_time['test_eval'] = test_eval_time
 
             f.write('\t one epoch took %.4f \n' % (timeit.default_timer() - start_epoch))
-            f.write('epoch: %d, loss: %.4f, train acc: %.3f, dev acc: %.3f \n' %
-                    (epoch + 1, total_loss, train_acc, dev_acc))
+            f.write('\t loss: %.4f, train acc: %.3f, dev acc: %.3f \n' %
+                    (total_loss, train_acc, dev_acc))
             epoch_perf['loss'] = ("%.4f" % total_loss)
             epoch_perf['train_acc'] = ("%.3f" % train_acc)
             epoch_perf['dev_acc'] = ("%.3f" % dev_acc)

@@ -1,0 +1,109 @@
+Language: German 
+Model: CustomedBiLstm(
+  (char_embedding_layer): Embedding(251, 100)
+  (lower_LSTM): LSTM(100, 100, batch_first=True)
+  (word_embedding_layer): Embedding(49501, 128)
+  (upper_LSTM): LSTM(228, 100, bidirectional=True)
+  (hidden_to_tag): Linear(in_features=200, out_features=16, bias=True)
+) 
+Config: {'n_epochs': 20, 'word_embed_dim': 128, 'char_embed_dim': 100, 'char_hidden_dim': 100, 'word_hidden_dim': 100, 'optimizer': 'Adam', 'lr': 0.0001, 'use_gpu': True, 'save_model': True}	 traing the model with 13814 sample took 305.4536 
+	 evaluation train split took 36.7621 
+	 evaluation dev took 1.7238 
+	 one epoch took 343.9395 
+epoch: 1, loss: 7719.2432, train acc: 0.923, dev acc: 0.866 
+	 traing the model with 13814 sample took 331.5137 
+	 evaluation train split took 36.4766 
+	 evaluation dev took 1.7131 
+	 one epoch took 369.7034 
+epoch: 2, loss: 3918.1045, train acc: 0.926, dev acc: 0.865 
+	 traing the model with 13814 sample took 326.8427 
+	 evaluation train split took 34.2714 
+	 evaluation dev took 1.7093 
+	 one epoch took 362.8235 
+epoch: 3, loss: 3529.3655, train acc: 0.932, dev acc: 0.862 
+	 traing the model with 13814 sample took 325.9289 
+	 evaluation train split took 40.5617 
+	 evaluation dev took 1.8755 
+	 one epoch took 368.3661 
+epoch: 4, loss: 3256.7578, train acc: 0.938, dev acc: 0.867 
+	 traing the model with 13814 sample took 307.4728 
+	 evaluation train split took 39.5012 
+	 evaluation dev took 1.8461 
+	 one epoch took 348.8201 
+epoch: 5, loss: 3118.8582, train acc: 0.940, dev acc: 0.863 
+	 traing the model with 13814 sample took 333.0780 
+	 evaluation train split took 37.9057 
+	 evaluation dev took 2.4108 
+	 one epoch took 373.3946 
+epoch: 6, loss: 3042.6921, train acc: 0.941, dev acc: 0.871 
+	 traing the model with 13814 sample took 356.7089 
+	 evaluation train split took 41.8339 
+	 evaluation dev took 2.4406 
+	 one epoch took 400.9834 
+epoch: 7, loss: 2977.0476, train acc: 0.937, dev acc: 0.861 
+	 traing the model with 13814 sample took 348.9409 
+	 evaluation train split took 40.7018 
+	 evaluation dev took 2.1370 
+	 one epoch took 391.7797 
+epoch: 8, loss: 2932.8931, train acc: 0.941, dev acc: 0.868 
+	 traing the model with 13814 sample took 363.6885 
+	 evaluation train split took 43.0638 
+	 evaluation dev took 2.1140 
+	 one epoch took 408.8664 
+epoch: 9, loss: 2926.6287, train acc: 0.944, dev acc: 0.868 
+	 traing the model with 13814 sample took 387.8055 
+	 evaluation train split took 39.7556 
+	 evaluation dev took 2.2263 
+	 one epoch took 429.7874 
+epoch: 10, loss: 2877.4346, train acc: 0.944, dev acc: 0.862 
+	 traing the model with 13814 sample took 403.4433 
+	 evaluation train split took 41.1843 
+	 evaluation dev took 1.8574 
+	 one epoch took 446.4851 
+epoch: 11, loss: 2844.7334, train acc: 0.944, dev acc: 0.863 
+	 traing the model with 13814 sample took 349.9663 
+	 evaluation train split took 40.2898 
+	 evaluation dev took 1.9695 
+	 one epoch took 392.2256 
+epoch: 12, loss: 2819.0454, train acc: 0.944, dev acc: 0.866 
+	 traing the model with 13814 sample took 357.2537 
+	 evaluation train split took 39.5015 
+	 evaluation dev took 1.8269 
+	 one epoch took 398.5822 
+epoch: 13, loss: 2826.8960, train acc: 0.943, dev acc: 0.863 
+	 traing the model with 13814 sample took 347.9989 
+	 evaluation train split took 34.8025 
+	 evaluation dev took 1.7257 
+	 one epoch took 384.5271 
+epoch: 14, loss: 2818.1797, train acc: 0.944, dev acc: 0.867 
+	 traing the model with 13814 sample took 332.8794 
+	 evaluation train split took 37.4595 
+	 evaluation dev took 1.7158 
+	 one epoch took 372.0548 
+epoch: 15, loss: 2738.3630, train acc: 0.945, dev acc: 0.866 
+	 traing the model with 13814 sample took 330.8570 
+	 evaluation train split took 35.4063 
+	 evaluation dev took 1.7100 
+	 one epoch took 367.9733 
+epoch: 16, loss: 2767.7534, train acc: 0.947, dev acc: 0.867 
+	 traing the model with 13814 sample took 331.8520 
+	 evaluation train split took 35.3324 
+	 evaluation dev took 1.7251 
+	 one epoch took 368.9096 
+epoch: 17, loss: 2692.7766, train acc: 0.946, dev acc: 0.866 
+	 traing the model with 13814 sample took 340.1840 
+	 evaluation train split took 34.5175 
+	 evaluation dev took 1.7241 
+	 one epoch took 376.4256 
+epoch: 18, loss: 2717.6387, train acc: 0.946, dev acc: 0.859 
+	 traing the model with 13814 sample took 337.0148 
+	 evaluation train split took 35.3456 
+	 evaluation dev took 1.7193 
+	 one epoch took 374.0797 
+epoch: 19, loss: 2704.4102, train acc: 0.947, dev acc: 0.871 
+	 traing the model with 13814 sample took 334.6723 
+	 evaluation train split took 34.4192 
+	 evaluation dev took 1.7087 
+	 one epoch took 370.8001 
+epoch: 20, loss: 2680.6426, train acc: 0.948, dev acc: 0.869 
+test acc: 0.851% 
