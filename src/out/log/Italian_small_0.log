@@ -1,0 +1,259 @@
+INFO:root:Language: Italian_small 
+
+INFO:root:Repo: /home/tri/Mien/MiniProjects/POSTagger_Pytorch/data/ud-treebanks-v2.3/UD_Italian-ParTUT 
+
+INFO:root:Number of tokens: 51614 
+
+INFO:root:Train size: 1781, Dev size: 156, Test size: 153
+INFO:root:Model: CustomedBiLstm(
+  (char_embedding_layer): Embedding(100, 100)
+  (lower_LSTM): LSTM(100, 100, batch_first=True)
+  (word_embedding_layer): Embedding(8139, 128)
+  (upper_LSTM): LSTM(228, 100, bidirectional=True)
+  (hidden_to_tag): Linear(in_features=200, out_features=15, bias=True)
+) 
+
+INFO:root:Config: {'n_epochs': 20, 'word_embed_dim': 128, 'char_embed_dim': 100, 'char_hidden_dim': 100, 'word_hidden_dim': 100, 'optimizer': 'Adam', 'lr': 0.0001, 'use_gpu': True, 'save_model': False}
+
+INFO:root:epoch: 0
+
+INFO:root:	 training the model took 20.9657 
+
+INFO:root:	 evaluation train split took 5.8373 
+
+INFO:root:	 evaluation dev took 0.3845 
+
+INFO:root:	 one epoch took 27.1878 
+
+INFO:root:	 loss: 1616.3770, train acc: 0.903, dev acc: 0.827 
+
+INFO:root:epoch: 1
+
+INFO:root:	 training the model took 18.3201 
+
+INFO:root:	 evaluation train split took 6.9983 
+
+INFO:root:	 evaluation dev took 0.4277 
+
+INFO:root:	 one epoch took 25.7465 
+
+INFO:root:	 loss: 480.6266, train acc: 0.966, dev acc: 0.854 
+
+INFO:root:epoch: 2
+
+INFO:root:	 training the model took 18.1699 
+
+INFO:root:	 evaluation train split took 5.9113 
+
+INFO:root:	 evaluation dev took 0.3858 
+
+INFO:root:	 one epoch took 24.4674 
+
+INFO:root:	 loss: 197.3547, train acc: 0.982, dev acc: 0.847 
+
+INFO:root:epoch: 3
+
+INFO:root:	 training the model took 17.8785 
+
+INFO:root:	 evaluation train split took 5.8627 
+
+INFO:root:	 evaluation dev took 0.3816 
+
+INFO:root:	 one epoch took 24.1231 
+
+INFO:root:	 loss: 100.9085, train acc: 0.990, dev acc: 0.869 
+
+INFO:root:epoch: 4
+
+INFO:root:	 training the model took 17.9132 
+
+INFO:root:	 evaluation train split took 5.8496 
+
+INFO:root:	 evaluation dev took 0.3819 
+
+INFO:root:	 one epoch took 24.1451 
+
+INFO:root:	 loss: 72.1199, train acc: 0.992, dev acc: 0.862 
+
+INFO:root:epoch: 5
+
+INFO:root:	 training the model took 17.8766 
+
+INFO:root:	 evaluation train split took 6.6645 
+
+INFO:root:	 evaluation dev took 0.4195 
+
+INFO:root:	 one epoch took 24.9609 
+
+INFO:root:	 loss: 51.1241, train acc: 0.994, dev acc: 0.883 
+
+INFO:root:epoch: 6
+
+INFO:root:	 training the model took 17.8065 
+
+INFO:root:	 evaluation train split took 5.8395 
+
+INFO:root:	 evaluation dev took 0.3922 
+
+INFO:root:	 one epoch took 24.0385 
+
+INFO:root:	 loss: 37.0186, train acc: 0.995, dev acc: 0.865 
+
+INFO:root:epoch: 7
+
+INFO:root:	 training the model took 17.9456 
+
+INFO:root:	 evaluation train split took 5.8510 
+
+INFO:root:	 evaluation dev took 0.3859 
+
+INFO:root:	 one epoch took 24.2501 
+
+INFO:root:	 loss: 32.5350, train acc: 0.995, dev acc: 0.867 
+
+INFO:root:epoch: 8
+
+INFO:root:	 training the model took 17.5810 
+
+INFO:root:	 evaluation train split took 6.1667 
+
+INFO:root:	 evaluation dev took 0.4250 
+
+INFO:root:	 one epoch took 24.1731 
+
+INFO:root:	 loss: 36.7550, train acc: 0.994, dev acc: 0.869 
+
+INFO:root:epoch: 9
+
+INFO:root:	 training the model took 18.9884 
+
+INFO:root:	 evaluation train split took 5.7945 
+
+INFO:root:	 evaluation dev took 0.4533 
+
+INFO:root:	 one epoch took 25.2366 
+
+INFO:root:	 loss: 35.1664, train acc: 0.996, dev acc: 0.875 
+
+INFO:root:epoch: 10
+
+INFO:root:	 training the model took 19.2997 
+
+INFO:root:	 evaluation train split took 5.8606 
+
+INFO:root:	 evaluation dev took 0.3891 
+
+INFO:root:	 one epoch took 25.5498 
+
+INFO:root:	 loss: 26.2778, train acc: 0.997, dev acc: 0.874 
+
+INFO:root:epoch: 11
+
+INFO:root:	 training the model took 17.7070 
+
+INFO:root:	 evaluation train split took 6.0601 
+
+INFO:root:	 evaluation dev took 0.3871 
+
+INFO:root:	 one epoch took 24.1545 
+
+INFO:root:	 loss: 22.9346, train acc: 0.997, dev acc: 0.860 
+
+INFO:root:epoch: 12
+
+INFO:root:	 training the model took 17.8229 
+
+INFO:root:	 evaluation train split took 5.8737 
+
+INFO:root:	 evaluation dev took 0.3816 
+
+INFO:root:	 one epoch took 24.0786 
+
+INFO:root:	 loss: 21.0740, train acc: 0.997, dev acc: 0.872 
+
+INFO:root:epoch: 13
+
+INFO:root:	 training the model took 17.8610 
+
+INFO:root:	 evaluation train split took 6.1348 
+
+INFO:root:	 evaluation dev took 0.4513 
+
+INFO:root:	 one epoch took 24.4476 
+
+INFO:root:	 loss: 16.0753, train acc: 0.998, dev acc: 0.866 
+
+INFO:root:epoch: 14
+
+INFO:root:	 training the model took 18.7812 
+
+INFO:root:	 evaluation train split took 6.3908 
+
+INFO:root:	 evaluation dev took 0.4681 
+
+INFO:root:	 one epoch took 25.6405 
+
+INFO:root:	 loss: 21.4755, train acc: 0.996, dev acc: 0.885 
+
+INFO:root:epoch: 15
+
+INFO:root:	 training the model took 19.4450 
+
+INFO:root:	 evaluation train split took 6.0981 
+
+INFO:root:	 evaluation dev took 0.4081 
+
+INFO:root:	 one epoch took 25.9515 
+
+INFO:root:	 loss: 25.8851, train acc: 0.997, dev acc: 0.891 
+
+INFO:root:epoch: 16
+
+INFO:root:	 training the model took 18.1605 
+
+INFO:root:	 evaluation train split took 7.3355 
+
+INFO:root:	 evaluation dev took 0.4022 
+
+INFO:root:	 one epoch took 25.8986 
+
+INFO:root:	 loss: 17.5196, train acc: 0.998, dev acc: 0.864 
+
+INFO:root:epoch: 17
+
+INFO:root:	 training the model took 19.0682 
+
+INFO:root:	 evaluation train split took 7.2091 
+
+INFO:root:	 evaluation dev took 0.5430 
+
+INFO:root:	 one epoch took 26.8207 
+
+INFO:root:	 loss: 16.5715, train acc: 0.998, dev acc: 0.875 
+
+INFO:root:epoch: 18
+
+INFO:root:	 training the model took 19.6827 
+
+INFO:root:	 evaluation train split took 6.8285 
+
+INFO:root:	 evaluation dev took 0.3901 
+
+INFO:root:	 one epoch took 26.9017 
+
+INFO:root:	 loss: 15.2017, train acc: 0.998, dev acc: 0.865 
+
+INFO:root:epoch: 19
+
+INFO:root:	 training the model took 18.6202 
+
+INFO:root:	 evaluation train split took 6.3386 
+
+INFO:root:	 evaluation dev took 0.4038 
+
+INFO:root:	 one epoch took 25.3630 
+
+INFO:root:	 loss: 12.6869, train acc: 0.998, dev acc: 0.868 
+
+INFO:root:test acc: 0.931% 
+

@@ -1,11 +1,12 @@
 import argparse
 
 from src.trainer import trainer
-from src.util.data import get_languages
+from src.util.data import get_languages, LanguageDataset
 from torch import cuda
+from config import root_path
 
-languages = [t for t in get_languages()]
-languages_arguments = languages + ['all']
+languages = get_languages()
+languages_arguments = list(languages.keys()) + ['all']
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run the bi-LSTM POS tagger')
@@ -22,6 +23,10 @@ if __name__ == '__main__':
                             help='Save the model(s) (default: False)',
                             type=bool,
                             default=False)
+    main_group.add_argument('--folder',
+                            help='Specific folder for a language (default: None)',
+                            type=str,
+                            default=None)
     # TODO: Running shell script from within Python can be unsafe?
     # parser.add_argument('--download_data', help='Download the Universal Dependency Dataset. '
     #                     'This will delete all the cached files in the data folder including built vocab and alphabet '
@@ -72,11 +77,23 @@ if __name__ == '__main__':
                'char_hidden_dim': args.char_hidden_dim, 'word_hidden_dim': args.word_hidden_dim,
                'optimizer': args.optimizer, 'lr': args.lr, 'use_gpu': use_gpu, 'save_model': args.save_model}
 
-    if args.language == 'all':
-        for lang in languages:
-            trainer(lang, configs)
+    if not args.folder:
+        if args.language == 'all':
+            for lang in languages:
+                trainer(languages[lang], configs)
+        else:
+            if args.language not in list(languages.keys()):
+                raise ValueError(f'language {args.language} not found')
+            trainer(languages[args.language], configs)
     else:
-        trainer(args.language, configs)
+        if args.language == 'all':
+            raise ValueError('Cannot train all language with designated folder. '
+                             'Please remove --folder arguments to train all languages')
+        path = root_path() / 'data' / 'ud-treebanks-v2.3' / args.folder
+        if not path.exists():
+            raise ValueError('Folder not found')
+        lang_dataset = LanguageDataset(args.language, path)
+        trainer(lang_dataset, configs)
 
 
 

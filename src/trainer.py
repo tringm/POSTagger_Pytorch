@@ -53,12 +53,7 @@ def evaluate(split_dataset, model, vocab, alphabet, all_tags, use_gpu):
     return sum(accuracy) / len(accuracy)
 
 
-def trainer(language, configs):
-    all_languages, _ = f_timer(get_languages)
-    if language not in all_languages:
-        raise ValueError(f'language {language} not found')
-    lang_data: LanguageDataset = all_languages[language]
-
+def trainer(lang_data, configs):
     vocab = lang_data.vocab
     alphabet = lang_data.alphabet
 
@@ -77,10 +72,10 @@ def trainer(language, configs):
         optimizer = optim.SGD(model.parameters(), lr=configs['lr'])
 
     n_try = 0
-    log_path = root_path() / 'src' / 'out' / 'log' / (language + '_' + str(n_try) + '.log')
+    log_path = root_path() / 'src' / 'out' / 'log' / (lang_data.name + '_' + str(n_try) + '.log')
     while log_path.exists():
         n_try += 1
-        log_path = root_path() / 'src' / 'out' / 'log' / (language + '_' + str(n_try) + '.log')
+        log_path = root_path() / 'src' / 'out' / 'log' / (lang_data.name + '_' + str(n_try) + '.log')
     logging.basicConfig(filename=str(log_path), level=logging.INFO)
     logging.getLogger('trainer')
 

@@ -1,0 +1,259 @@
+INFO:root:Language: Vietnamese 
+
+INFO:root:Repo: /home/tri/Mien/MiniProjects/POSTagger_Pytorch/data/ud-treebanks-v2.3/UD_Vietnamese-VTB 
+
+INFO:root:Number of tokens: 43754 
+
+INFO:root:Train size: 1400, Dev size: 800, Test size: 800
+INFO:root:Model: CustomedBiLstm(
+  (char_embedding_layer): Embedding(153, 100)
+  (lower_LSTM): LSTM(100, 100, batch_first=True)
+  (word_embedding_layer): Embedding(3628, 128)
+  (upper_LSTM): LSTM(228, 100, bidirectional=True)
+  (hidden_to_tag): Linear(in_features=200, out_features=14, bias=True)
+) 
+
+INFO:root:Config: {'n_epochs': 20, 'word_embed_dim': 128, 'char_embed_dim': 100, 'char_hidden_dim': 100, 'word_hidden_dim': 100, 'optimizer': 'Adam', 'lr': 0.0001, 'use_gpu': True, 'save_model': True}
+
+INFO:root:epoch: 0
+
+INFO:root:	 training the model took 8.7598 
+
+INFO:root:	 evaluation train split took 3.2182 
+
+INFO:root:	 evaluation dev took 1.9982 
+
+INFO:root:	 one epoch took 13.9766 
+
+INFO:root:	 loss: 1482.8240, train acc: 0.872, dev acc: 0.815 
+
+INFO:root:epoch: 1
+
+INFO:root:	 training the model took 9.8173 
+
+INFO:root:	 evaluation train split took 3.5082 
+
+INFO:root:	 evaluation dev took 1.8121 
+
+INFO:root:	 one epoch took 15.1428 
+
+INFO:root:	 loss: 497.6687, train acc: 0.943, dev acc: 0.845 
+
+INFO:root:epoch: 2
+
+INFO:root:	 training the model took 9.8982 
+
+INFO:root:	 evaluation train split took 3.0907 
+
+INFO:root:	 evaluation dev took 1.8547 
+
+INFO:root:	 one epoch took 14.8440 
+
+INFO:root:	 loss: 251.4144, train acc: 0.962, dev acc: 0.854 
+
+INFO:root:epoch: 3
+
+INFO:root:	 training the model took 10.5097 
+
+INFO:root:	 evaluation train split took 3.3802 
+
+INFO:root:	 evaluation dev took 1.7966 
+
+INFO:root:	 one epoch took 15.6868 
+
+INFO:root:	 loss: 175.6954, train acc: 0.968, dev acc: 0.855 
+
+INFO:root:epoch: 4
+
+INFO:root:	 training the model took 8.7029 
+
+INFO:root:	 evaluation train split took 2.9486 
+
+INFO:root:	 evaluation dev took 1.7038 
+
+INFO:root:	 one epoch took 13.3557 
+
+INFO:root:	 loss: 128.7959, train acc: 0.981, dev acc: 0.853 
+
+INFO:root:epoch: 5
+
+INFO:root:	 training the model took 9.7810 
+
+INFO:root:	 evaluation train split took 3.0941 
+
+INFO:root:	 evaluation dev took 1.9447 
+
+INFO:root:	 one epoch took 14.8697 
+
+INFO:root:	 loss: 83.2718, train acc: 0.988, dev acc: 0.863 
+
+INFO:root:epoch: 6
+
+INFO:root:	 training the model took 11.6505 
+
+INFO:root:	 evaluation train split took 2.9964 
+
+INFO:root:	 evaluation dev took 1.9714 
+
+INFO:root:	 one epoch took 16.6186 
+
+INFO:root:	 loss: 64.9422, train acc: 0.986, dev acc: 0.856 
+
+INFO:root:epoch: 7
+
+INFO:root:	 training the model took 8.9321 
+
+INFO:root:	 evaluation train split took 2.8077 
+
+INFO:root:	 evaluation dev took 1.6008 
+
+INFO:root:	 one epoch took 13.3409 
+
+INFO:root:	 loss: 54.0262, train acc: 0.989, dev acc: 0.856 
+
+INFO:root:epoch: 8
+
+INFO:root:	 training the model took 8.1480 
+
+INFO:root:	 evaluation train split took 2.8383 
+
+INFO:root:	 evaluation dev took 1.6096 
+
+INFO:root:	 one epoch took 12.5962 
+
+INFO:root:	 loss: 44.6812, train acc: 0.992, dev acc: 0.860 
+
+INFO:root:epoch: 9
+
+INFO:root:	 training the model took 8.6248 
+
+INFO:root:	 evaluation train split took 2.8178 
+
+INFO:root:	 evaluation dev took 1.5951 
+
+INFO:root:	 one epoch took 13.0380 
+
+INFO:root:	 loss: 37.9177, train acc: 0.994, dev acc: 0.858 
+
+INFO:root:epoch: 10
+
+INFO:root:	 training the model took 8.1657 
+
+INFO:root:	 evaluation train split took 2.8374 
+
+INFO:root:	 evaluation dev took 1.6072 
+
+INFO:root:	 one epoch took 12.6106 
+
+INFO:root:	 loss: 27.2022, train acc: 0.995, dev acc: 0.861 
+
+INFO:root:epoch: 11
+
+INFO:root:	 training the model took 9.4636 
+
+INFO:root:	 evaluation train split took 3.8506 
+
+INFO:root:	 evaluation dev took 2.3937 
+
+INFO:root:	 one epoch took 15.7082 
+
+INFO:root:	 loss: 24.8848, train acc: 0.996, dev acc: 0.860 
+
+INFO:root:epoch: 12
+
+INFO:root:	 training the model took 8.3925 
+
+INFO:root:	 evaluation train split took 2.8425 
+
+INFO:root:	 evaluation dev took 1.6194 
+
+INFO:root:	 one epoch took 12.8547 
+
+INFO:root:	 loss: 28.5292, train acc: 0.996, dev acc: 0.856 
+
+INFO:root:epoch: 13
+
+INFO:root:	 training the model took 9.7690 
+
+INFO:root:	 evaluation train split took 3.1765 
+
+INFO:root:	 evaluation dev took 1.8226 
+
+INFO:root:	 one epoch took 14.7684 
+
+INFO:root:	 loss: 26.1911, train acc: 0.995, dev acc: 0.853 
+
+INFO:root:epoch: 14
+
+INFO:root:	 training the model took 11.1899 
+
+INFO:root:	 evaluation train split took 3.3569 
+
+INFO:root:	 evaluation dev took 1.6746 
+
+INFO:root:	 one epoch took 16.2218 
+
+INFO:root:	 loss: 24.7618, train acc: 0.996, dev acc: 0.856 
+
+INFO:root:epoch: 15
+
+INFO:root:	 training the model took 8.8170 
+
+INFO:root:	 evaluation train split took 2.8858 
+
+INFO:root:	 evaluation dev took 1.6376 
+
+INFO:root:	 one epoch took 13.3407 
+
+INFO:root:	 loss: 18.3394, train acc: 0.997, dev acc: 0.855 
+
+INFO:root:epoch: 16
+
+INFO:root:	 training the model took 8.3492 
+
+INFO:root:	 evaluation train split took 2.8891 
+
+INFO:root:	 evaluation dev took 1.6431 
+
+INFO:root:	 one epoch took 12.8818 
+
+INFO:root:	 loss: 15.8800, train acc: 0.997, dev acc: 0.856 
+
+INFO:root:epoch: 17
+
+INFO:root:	 training the model took 8.3658 
+
+INFO:root:	 evaluation train split took 2.8741 
+
+INFO:root:	 evaluation dev took 1.6372 
+
+INFO:root:	 one epoch took 12.8775 
+
+INFO:root:	 loss: 15.7211, train acc: 0.997, dev acc: 0.853 
+
+INFO:root:epoch: 18
+
+INFO:root:	 training the model took 8.3770 
+
+INFO:root:	 evaluation train split took 2.8946 
+
+INFO:root:	 evaluation dev took 1.6461 
+
+INFO:root:	 one epoch took 12.9181 
+
+INFO:root:	 loss: 16.2427, train acc: 0.997, dev acc: 0.854 
+
+INFO:root:epoch: 19
+
+INFO:root:	 training the model took 8.4081 
+
+INFO:root:	 evaluation train split took 2.8922 
+
+INFO:root:	 evaluation dev took 1.6413 
+
+INFO:root:	 one epoch took 12.9419 
+
+INFO:root:	 loss: 14.8241, train acc: 0.997, dev acc: 0.844 
+
+INFO:root:test acc: 0.827% 
+
