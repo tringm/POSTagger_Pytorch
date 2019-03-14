@@ -1,4 +1,5 @@
 import json
+import logging
 import timeit
 from random import shuffle
 
@@ -10,7 +11,7 @@ from sklearn.metrics import accuracy_score
 
 from config import root_path
 from src.model import CustomedBiLstm
-from src.util.data import LanguageDataset, SplitData
+from src.util.data import LanguageDataset
 from src.util.data import get_languages
 from src.util.misc import f_timer
 
@@ -62,13 +63,10 @@ def trainer(language, configs):
     alphabet = lang_data.alphabet
 
     meta = lang_data.meta
-    all_tags = meta['all_tags']
-    n_tags = meta['n_tags']
     use_gpu = configs['use_gpu']
-
     model = CustomedBiLstm(alphabet_size=len(alphabet), vocab_size=len(vocab), word_embed_dim=configs['word_embed_dim'],
                            char_embed_dim=configs['char_embed_dim'], char_hidden_dim=configs['char_hidden_dim'],
-                           word_hidden_dim=configs['word_hidden_dim'], n_tags=n_tags, use_gpu=use_gpu)
+                           word_hidden_dim=configs['word_hidden_dim'], n_tags=meta['n_tags'], use_gpu=use_gpu)
     if use_gpu:
         model.cuda()
 
@@ -78,83 +76,86 @@ def trainer(language, configs):
     elif configs['optimizer'] == 'SGD':
         optimizer = optim.SGD(model.parameters(), lr=configs['lr'])
 
-    train_split: SplitData = lang_data.train_split
+    n_try = 0
+    log_path = root_path() / 'src' / 'out' / 'log' / (language + '_' + str(n_try) + '.log')
+    while log_path.exists():
+        n_try += 1
+        log_path = root_path() / 'src' / 'out' / 'log' / (language + '_' + str(n_try) + '.log')
+    logging.basicConfig(filename=str(log_path), level=logging.INFO)
+    logging.getLogger('trainer')
 
-    results = {}
+    results = {'Language':lang_data.name,
+               'Repo': lang_data.repo.stem,
+               'Stats': {'n_tokens': meta['n_tokens'],
+                         'n_train': len(lang_data.train_split.tokens),
+                         'n_dev': len(lang_data.dev_split.tokens),
+                         'n_test': len(lang_data.test_split.tokens)},
+               'Config': configs,
+               'Model': str(model),
+               'Time': [],
+               'Performance': []
+               }
+    logging.info(f"Language: {lang_data.name} \n")
+    logging.info(f"Repo: {lang_data.repo} \n")
+    logging.info(f"Number of tokens: {meta['n_tokens']} \n")
+    logging.info(f"Train size: {len(lang_data.train_split.tokens)}, "
+                 f"Dev size: {len(lang_data.dev_split.tokens)}, "
+                 f"Test size: {len(lang_data.test_split.tokens)}")
+    logging.info(f"Model: {model} \n")
+    logging.info(f"Config: {configs}\n")
 
-    with (root_path() / 'src' / 'out' / 'log' / (lang_data.name + '.log')).open(mode='w') as f:
-        # TODO: Refactor this. Is both JSON and log neccessary?
-        results['Language'] = lang_data.name
-        results['Repo'] = lang_data.repo.stem
-        results['Stats'] = {'n_tokens': meta['n_tokens'],
-                            'n_train': len(train_split.tokens),
-                            'n_dev': len(lang_data.dev_split.tokens),
-                            'n_test': len(lang_data.test_split.tokens)}
-        results['Config'] = configs
-        results['Model'] = str(model)
-        results['Time'] = []
-        results['Performance'] = []
+    for epoch in range(configs['n_epochs']):
+        logging.info(f"epoch: {epoch}\n")
+        epoch_time = {'epoch': epoch + 1}
+        epoch_perf = {'epoch': epoch + 1}
+        start_epoch = timeit.default_timer()
 
-        f.write(f"Language: {lang_data.name} \n")
-        f.write(f"Repo: {lang_data.repo} \n")
-        f.write(f"Number of tokens: {meta['n_tokens']} \n")
-        f.write(f"Train size: {len(train_split.tokens)}, "
-                f"Dev size: {len(lang_data.dev_split.tokens)},"
-                f" Test size: {len(lang_data.test_split.tokens)}")
-        f.write(f"Model: {model} \n")
-        f.write(f"Config: {configs}\n")
+        indices = np.arange(len(lang_data.train_split.tokens))
+        shuffle(indices)
+        train_tokens = [lang_data.train_split.tokens[idx] for idx in indices]
+        train_tags = [lang_data.train_split.tags[idx] for idx in indices]
 
-        for epoch in range(configs['n_epochs']):
-            f.write(f"epoch: {epoch}\n")
-            epoch_time = {'epoch': epoch + 1}
-            epoch_perf = {'epoch': epoch + 1}
-            start_epoch = timeit.default_timer()
+        total_loss = 0
+        model.zero_grad()
+        for idx in range(len(lang_data.train_split.tokens)):
+            tokens_tensor, char_tensor, tags_tensor = get_one_batch(train_tokens[idx], train_tags[idx],
+                                                                    vocab, alphabet, meta['all_tags'])
+            if use_gpu:
+                tokens_tensor = tokens_tensor.cuda()
+                char_tensor = char_tensor.cuda()
+                tags_tensor = tags_tensor.cuda()
+            log_probs = model(tokens_tensor, char_tensor)
+            batch_loss = loss_function(log_probs, tags_tensor)
+            batch_loss.backward()
+            optimizer.step()
+            total_loss += batch_loss
 
-            indices = np.arange(len(train_split.tokens))
-            shuffle(indices)
-            train_tokens = [train_split.tokens[idx] for idx in indices]
-            train_tags = [train_split.tags[idx] for idx in indices]
+        training_time = timeit.default_timer() - start_epoch
+        logging.info('\t training the model took %.4f \n' % training_time)
+        epoch_time['train'] = training_time
 
-            total_loss = 0
-            model.zero_grad()
-            for idx in range(len(train_split.tokens)):
-                tokens_tensor, char_tensor, tags_tensor = get_one_batch(train_tokens[idx], train_tags[idx],
-                                                                        vocab, alphabet, all_tags)
-                if use_gpu:
-                    tokens_tensor = tokens_tensor.cuda()
-                    char_tensor = char_tensor.cuda()
-                    tags_tensor = tags_tensor.cuda()
-                log_probs = model(tokens_tensor, char_tensor)
-                batch_loss = loss_function(log_probs, tags_tensor)
-                batch_loss.backward()
-                optimizer.step()
-                total_loss += batch_loss
+        train_acc, train_eval_time = f_timer(evaluate, lang_data.train_split, model, vocab, alphabet,
+                                             meta['all_tags'], use_gpu)
+        dev_acc, test_eval_time = f_timer(evaluate, lang_data.dev_split, model, vocab, alphabet,
+                                          meta['all_tags'], use_gpu)
+        logging.info('\t evaluation train split took %.4f \n' % train_eval_time)
+        logging.info('\t evaluation dev took %.4f \n' % test_eval_time)
+        epoch_time['train_eval'] = train_eval_time
+        epoch_time['test_eval'] = test_eval_time
 
-            training_time = timeit.default_timer() - start_epoch
-            f.write('\t training the model with %d sample took %.4f \n' % (len(train_split.tokens), training_time))
-            epoch_time['train'] = training_time
+        logging.info('\t one epoch took %.4f \n' % (timeit.default_timer() - start_epoch))
+        logging.info('\t loss: %.4f, train acc: %.3f, dev acc: %.3f \n' %
+                (total_loss, train_acc, dev_acc))
+        epoch_perf['loss'] = ("%.4f" % total_loss)
+        epoch_perf['train_acc'] = ("%.3f" % train_acc)
+        epoch_perf['dev_acc'] = ("%.3f" % dev_acc)
 
-            train_acc, train_eval_time = f_timer(evaluate, lang_data.train_split, model, vocab, alphabet, all_tags,
-                                                 use_gpu)
-            dev_acc, test_eval_time = f_timer(evaluate, lang_data.dev_split, model, vocab, alphabet, all_tags, use_gpu)
-            f.write('\t evaluation train split took %.4f \n' % train_eval_time)
-            f.write('\t evaluation dev took %.4f \n' % test_eval_time)
-            epoch_time['train_eval'] = train_eval_time
-            epoch_time['test_eval'] = test_eval_time
+        results['Time'].append(epoch_time)
+        results['Performance'].append(epoch_perf)
 
-            f.write('\t one epoch took %.4f \n' % (timeit.default_timer() - start_epoch))
-            f.write('\t loss: %.4f, train acc: %.3f, dev acc: %.3f \n' %
-                    (total_loss, train_acc, dev_acc))
-            epoch_perf['loss'] = ("%.4f" % total_loss)
-            epoch_perf['train_acc'] = ("%.3f" % train_acc)
-            epoch_perf['dev_acc'] = ("%.3f" % dev_acc)
-
-            results['Time'].append(epoch_time)
-            results['Performance'].append(epoch_perf)
-
-        test_acc = evaluate(lang_data.test_split, model, vocab, alphabet, all_tags, use_gpu)
-        f.write('test acc: %.3f%% \n' % test_acc)
-        results['Accuracy'] = test_acc
+    test_acc = evaluate(lang_data.test_split, model, vocab, alphabet, meta['all_tags'], use_gpu)
+    logging.info('test acc: %.3f%% \n' % test_acc)
+    results['Accuracy'] = test_acc
 
     with (root_path() / 'src' / 'out' / 'test' / (lang_data.name + '.json')).open(mode='w') as f:
         json.dump(results, f, indent=4, sort_keys=True)

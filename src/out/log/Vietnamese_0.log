@@ -1,0 +1,19 @@
+INFO:root:Language: Vietnamese 
+
+INFO:root:Repo: /home/tri/Mien/MiniProjects/POSTagger_Pytorch/data/ud-treebanks-v2.3/UD_Vietnamese-VTB 
+
+INFO:root:Number of tokens: 43754 
+
+INFO:root:Train size: 1400, Dev size: 800, Test size: 800
+INFO:root:Model: CustomedBiLstm(
+  (char_embedding_layer): Embedding(153, 100)
+  (lower_LSTM): LSTM(100, 100, batch_first=True)
+  (word_embedding_layer): Embedding(3628, 128)
+  (upper_LSTM): LSTM(228, 100, bidirectional=True)
+  (hidden_to_tag): Linear(in_features=200, out_features=14, bias=True)
+) 
+
+INFO:root:Config: {'n_epochs': 20, 'word_embed_dim': 128, 'char_embed_dim': 100, 'char_hidden_dim': 100, 'word_hidden_dim': 100, 'optimizer': 'Adam', 'lr': 0.0001, 'use_gpu': True, 'save_model': True}
+
+INFO:root:epoch: 0
+

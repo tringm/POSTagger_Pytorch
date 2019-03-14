@@ -31,7 +31,6 @@ def get_languages():
         if not languages[lang]:
             languages[lang] = []
         languages[lang].append(dir)
-
     # get directory with the most amount of tokens
     for lang in languages:
         list_dirs = languages[lang]
@@ -42,9 +41,8 @@ def get_languages():
             for dir in list_dirs:
                 with (dir / 'stats.xml').open() as f:
                     stats = xmltodict.parse(f.read())
-                    lang_stats.append(stats['treebank']['size']['total']['tokens'])
+                    lang_stats.append(int(stats['treebank']['size']['total']['tokens']))
             languages[lang] = LanguageDataset(lang, list_dirs[np.argmax(lang_stats)])
-
     with lang_to_dir_path.open(mode='wb') as f:
         pickle.dump(languages, f)
     return languages
