@@ -69,8 +69,8 @@ if __name__ == '__main__':
     use_gpu = args.gpu and cuda.is_available()
 
     configs = {'n_epochs': args.n_epochs, 'word_embed_dim': args.word_embed_dim, 'char_embed_dim': args.char_embed_dim,
-              'char_hidden_dim': args.char_hidden_dim, 'word_hidden_dim': args.word_hidden_dim,
-              'optimizer': args.optimizer, 'lr': args.lr, 'use_gpu': use_gpu, 'save_model': args.save_model}
+               'char_hidden_dim': args.char_hidden_dim, 'word_hidden_dim': args.word_hidden_dim,
+               'optimizer': args.optimizer, 'lr': args.lr, 'use_gpu': use_gpu, 'save_model': args.save_model}
 
     if args.language == 'all':
         for lang in languages:

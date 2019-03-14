@@ -7,7 +7,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from sklearn.metrics import accuracy_score
-from sklearn.preprocessing import MultiLabelBinarizer
 
 from config import root_path
 from src.model import CustomedBiLstm
@@ -98,10 +97,10 @@ def trainer(language, configs):
 
         f.write(f"Language: {lang_data.name} \n")
         f.write(f"Repo: {lang_data.repo} \n")
-        f.write(f"Number of tokens: {meta['n_tokens']}")
-        f.write(f"Train size: {len(train_split.tokens)}")
-        f.write(f"Dev size: {len(lang_data.dev_split.tokens)}")
-        f.write(f"Test size: {len(lang_data.test_split.tokens)}")
+        f.write(f"Number of tokens: {meta['n_tokens']} \n")
+        f.write(f"Train size: {len(train_split.tokens)}, "
+                f"Dev size: {len(lang_data.dev_split.tokens)},"
+                f" Test size: {len(lang_data.test_split.tokens)}")
         f.write(f"Model: {model} \n")
         f.write(f"Config: {configs}\n")
 
@@ -132,7 +131,7 @@ def trainer(language, configs):
                 total_loss += batch_loss
 
             training_time = timeit.default_timer() - start_epoch
-            f.write('\t traing the model with %d sample took %.4f \n' % (len(train_split.tokens), training_time))
+            f.write('\t training the model with %d sample took %.4f \n' % (len(train_split.tokens), training_time))
             epoch_time['train'] = training_time
 
             train_acc, train_eval_time = f_timer(evaluate, lang_data.train_split, model, vocab, alphabet, all_tags,
