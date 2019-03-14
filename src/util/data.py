@@ -1,6 +1,4 @@
 import pickle
-from itertools import groupby
-from operator import itemgetter
 
 import conllu
 import numpy as np
@@ -26,22 +24,27 @@ def get_languages():
     # find datasets with train, dev, and test split
     all_dir = [(dir.name.split('-')[0][3:], dir) for dir in data_path.iterdir()
                if len(list(dir.glob('*.conllu'))) > 2]
-    # groupby language name
-    languages = [(lang, list(list(zip(*dirs))[1])) for lang, dirs in groupby(all_dir, itemgetter(0))]
-    # get directory with the most amount of tokens
-    for idx, t in enumerate(languages):
+    languages = dict.fromkeys(list(set(t[0] for t in all_dir)))
+    for t in all_dir:
         lang = t[0]
-        list_dirs = t[1]
+        dir = t[1]
+        if not languages[lang]:
+            languages[lang] = []
+        languages[lang].append(dir)
+
+    # get directory with the most amount of tokens
+    for lang in languages:
+        list_dirs = languages[lang]
         if len(list_dirs) == 1:
-            languages[idx] = (lang, LanguageDataset(lang, list_dirs[0]))
+            languages[lang] = LanguageDataset(lang, list_dirs[0])
         else:
             lang_stats = []
             for dir in list_dirs:
                 with (dir / 'stats.xml').open() as f:
                     stats = xmltodict.parse(f.read())
                     lang_stats.append(stats['treebank']['size']['total']['tokens'])
-            languages[idx] = (lang, LanguageDataset(lang, list_dirs[np.argmax(lang_stats)]))
-    languages = dict(languages)
+            languages[lang] = LanguageDataset(lang, list_dirs[np.argmax(lang_stats)])
+
     with lang_to_dir_path.open(mode='wb') as f:
         pickle.dump(languages, f)
     return languages
