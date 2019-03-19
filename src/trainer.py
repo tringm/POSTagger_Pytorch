@@ -11,8 +11,6 @@ from sklearn.metrics import accuracy_score
 
 from config import root_path
 from src.model import CustomedBiLstm
-from src.util.data import LanguageDataset
-from src.util.data import get_languages
 from src.util.misc import f_timer
 
 

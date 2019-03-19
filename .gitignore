@@ -9,3 +9,6 @@ data/
 
 # Cached models
 *.model
+
+# log file
+*.log 
