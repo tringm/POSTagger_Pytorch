@@ -11,4 +11,7 @@ data/
 *.model
 
 # log file
-*.log 
+*.log
+
+#jupyer checkpoints 
+.ipynb_checkpoints/

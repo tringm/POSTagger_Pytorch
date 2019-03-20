@@ -12,6 +12,8 @@ xmltodict = "*"
 conllu = "*"
 torchtext = "*"
 sklearn = "*"
+jupyter = "*"
+plotly = "*"
 
 [requires]
 python_version = "3.6"

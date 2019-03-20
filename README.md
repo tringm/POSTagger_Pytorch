@@ -61,16 +61,16 @@ The dataset can be download by running the ```.downloadData.sh``` bash script. T
 1. main: setup arguments and default configs
 
 ### Performance
-TODO: Add graphs
+Detail performance can be seen [here](./misc/performance.ipynb)
 
-Performance so far
-1. French: 92.71 < 94.44 from the research paper
-1. Italian: 90.37 < 96.57 from the research paper
-1. Hebrew: 90.00 < 93.97 from the research paper
-1. Germany: 85.14 < 90.33 from the research paper
+#### Some notable performance
+1. Italian: 92.01 < 96.57 from the research paper
+1. Hebrew: 90.75 < 93.97 from the research paper
+1. Germany: 82.28 < 90.33 from the research paper
 
-However, the implementation is different from the research paper with 2 configs:
+This implementation is different from the research paper with 2 configs:
 1. The research paper claims to use lr=0.1. Using lr=0.1 explode the loss. Hence use lr=0.0001 instead.
 1. The implementation use Adam optimizer instead of SGD.
+1. The research paper uses pretrained embedding.
 
-It's also possible that the paper use different dataset
+It's also possible that the paper use different dataset for a language
